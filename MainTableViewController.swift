@@ -48,7 +48,6 @@ class MainTableViewController: UITableViewController {
             }
             else if let httpResponse = response as? NSHTTPURLResponse{
                 if httpResponse.statusCode == 200{
-                    print("ALL OK")
                     self.parseJSON(data)
                 }
             }
@@ -58,7 +57,6 @@ class MainTableViewController: UITableViewController {
     }
     
     func parseJSON(data: NSData?){
-        print("The Data is: \(data)")
         
         do{
             if let data = data{
@@ -102,15 +100,17 @@ class MainTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        //let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CurrencyTableViewCell
 
         // Configure the cell...
         
         if indexPath.section == 0{
             if let base = rates["base"]
             {
-                cell.textLabel?.text = base as? String
-                cell.detailTextLabel?.text = "\(factor)"
+                cell.lable_fullname.text = base as? String
+                cell.label_shorthand.text = base as? String
+                cell.label_amount.text = "\(factor)"
                 
             }
         }
@@ -121,13 +121,11 @@ class MainTableViewController: UITableViewController {
                 let values = exchangeRates.allValues
                 
                 // Look up the full currency name for the shorthand
-                //let full_currency = currency_long.objectForKey(keys[indexPath.row]) ?? ""
+                let full_currency = currency_long.objectForKey(keys[indexPath.row]) ?? ""
                 
-            
-                // Wenn ich diese Zeile und die darber einkommentiere, werden die vollen Namen der Währung angezeigt, allerdings brauche ich nur das Kürzel der Währung zur Umrechnung, das ist ein Problem.
-                //cell.textLabel?.text = "\(full_currency!) (\(keys[indexPath.row]))"
-                cell.textLabel?.text = "\(keys[indexPath.row])"
-                cell.detailTextLabel?.text = "\(((values[indexPath.row]) as! Double)*factor)"
+                cell.lable_fullname.text = "\(full_currency!)"
+                cell.label_shorthand.text = "\(keys[indexPath.row])"
+                cell.label_amount.text = "\(((values[indexPath.row]) as! Double)*factor)"
             }
         }
         
@@ -158,8 +156,8 @@ class MainTableViewController: UITableViewController {
                     let cell = self.tableView.cellForRowAtIndexPath(indexPath)
                     cell?.detailTextLabel?.text = alertView.textFields?.first?.text
                     self.factor = Double((alertView.textFields?.first?.text)!)!
-                    tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                    //tableView.reloadData()
+                    //tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                    tableView.reloadData()
                     
             }))
             
@@ -169,8 +167,8 @@ class MainTableViewController: UITableViewController {
             
         }
         else if indexPath.section == 1{
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            getRates((cell?.textLabel?.text)!)
+            let cell: CurrencyTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! CurrencyTableViewCell
+            getRates((cell.label_shorthand.text)!)
             
         }
     }

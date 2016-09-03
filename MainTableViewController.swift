@@ -11,19 +11,27 @@ import UIKit
 class MainTableViewController: UITableViewController {
 
     var rates = [String:AnyObject]()
-    
     var factor = 1.0
+    
+    var currency_long = NSDictionary()
     
     let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        //Preapare Long Currency Names
+        
+        let JSONFile = NSBundle.mainBundle().pathForResource("currency_long", ofType: "json")
+        let data = NSData(contentsOfFile: JSONFile!)!
+        
+        do {
+            let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+            currency_long =  NSDictionary(dictionary: json as! [NSString : NSString])
+            
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+        }
         
         getRates("USD")
     }
@@ -56,7 +64,6 @@ class MainTableViewController: UITableViewController {
             if let data = data{
                 
                 self.rates = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! [String:AnyObject]
-               // print(self.rates)
             }
         }
         catch{
@@ -64,7 +71,6 @@ class MainTableViewController: UITableViewController {
         }
         dispatch_async(dispatch_get_main_queue())
         {
-            //self.currencyTextView.text = "\(self.rates)"
             self.tableView.reloadData()
         }
     }
@@ -104,7 +110,7 @@ class MainTableViewController: UITableViewController {
             if let base = rates["base"]
             {
                 cell.textLabel?.text = base as? String
-                cell.detailTextLabel?.text = "1.0"
+                cell.detailTextLabel?.text = "\(factor)"
                 
             }
         }
@@ -113,9 +119,14 @@ class MainTableViewController: UITableViewController {
             
                 let keys = exchangeRates.allKeys
                 let values = exchangeRates.allValues
+                
+                // Look up the full currency name for the shorthand
+                //let full_currency = currency_long.objectForKey(keys[indexPath.row]) ?? ""
+                
             
-                cell.textLabel?.text = keys[indexPath.row] as? String
-                //cell.detailTextLabel?.text = "\(values[indexPath.row])"
+                // Wenn ich diese Zeile und die darber einkommentiere, werden die vollen Namen der Währung angezeigt, allerdings brauche ich nur das Kürzel der Währung zur Umrechnung, das ist ein Problem.
+                //cell.textLabel?.text = "\(full_currency!) (\(keys[indexPath.row]))"
+                cell.textLabel?.text = "\(keys[indexPath.row])"
                 cell.detailTextLabel?.text = "\(((values[indexPath.row]) as! Double)*factor)"
             }
         }
@@ -134,9 +145,33 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0 && indexPath.section == 0{
-                print("Row \(indexPath.row) selected")
-                factor = factor * 2
-                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            
+            let alertView = UIAlertController(title: "Eingabe", message: "Bitte geben Sie eine Betrag ein.", preferredStyle: .Alert)
+            alertView.addTextFieldWithConfigurationHandler { (textField: UITextField) in
+                textField.keyboardType = .DecimalPad
+            }
+            
+            alertView.addAction(UIAlertAction(title: "OK", style: .Default, handler:
+                {
+                    (action: UIAlertAction) in
+                    
+                    let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+                    cell?.detailTextLabel?.text = alertView.textFields?.first?.text
+                    self.factor = Double((alertView.textFields?.first?.text)!)!
+                    tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                    //tableView.reloadData()
+                    
+            }))
+            
+            alertView.addAction(UIAlertAction(title: "Abbrechen", style: .Cancel, handler: nil))
+
+            self.presentViewController(alertView, animated: true, completion: nil)
+            
+        }
+        else if indexPath.section == 1{
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            getRates((cell?.textLabel?.text)!)
+            
         }
     }
     /*

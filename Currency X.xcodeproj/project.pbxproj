@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2FB1A51D7ABFC60022ED04 /* currency_long.json in Resources */ = {isa = PBXBuildFile; fileRef = AA2FB1A41D7ABFC60022ED04 /* currency_long.json */; };
 		AA9045891D788242005F09E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9045881D788242005F09E6 /* AppDelegate.swift */; };
 		AA90458E1D788242005F09E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA90458C1D788242005F09E6 /* Main.storyboard */; };
 		AA9045901D788242005F09E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA90458F1D788242005F09E6 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA2FB1A41D7ABFC60022ED04 /* currency_long.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currency_long.json; sourceTree = "<group>"; };
 		AA9045851D788241005F09E6 /* Currency X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9045881D788242005F09E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA90458D1D788242005F09E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				AA90458F1D788242005F09E6 /* Assets.xcassets */,
 				AA9045911D788242005F09E6 /* LaunchScreen.storyboard */,
 				AA9045941D788242005F09E6 /* Info.plist */,
+				AA2FB1A41D7ABFC60022ED04 /* currency_long.json */,
 			);
 			path = "Currency X";
 			sourceTree = "<group>";
@@ -122,6 +125,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2FB1A51D7ABFC60022ED04 /* currency_long.json in Resources */,
 				AA9045931D788242005F09E6 /* LaunchScreen.storyboard in Resources */,
 				AA9045901D788242005F09E6 /* Assets.xcassets in Resources */,
 				AA90458E1D788242005F09E6 /* Main.storyboard in Resources */,
@@ -286,6 +290,7 @@
 				AA9045991D788242005F09E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

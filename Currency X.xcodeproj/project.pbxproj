@@ -14,7 +14,7 @@
 		AA9045901D788242005F09E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA90458F1D788242005F09E6 /* Assets.xcassets */; };
 		AA9045931D788242005F09E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA9045911D788242005F09E6 /* LaunchScreen.storyboard */; };
 		AA90459B1D7882C6005F09E6 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90459A1D7882C6005F09E6 /* MainTableViewController.swift */; };
-		AAAAFD501D7C5FAE00741067 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AAAAFD4F1D7C5FAE00741067 /* README.md */; };
+		AAAAFD521D7C659700741067 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AAAAFD511D7C659700741067 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		AA9045921D788242005F09E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA9045941D788242005F09E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA90459A1D7882C6005F09E6 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTableViewController.swift; path = ../MainTableViewController.swift; sourceTree = "<group>"; };
-		AAAAFD4F1D7C5FAE00741067 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AAAAFD511D7C659700741067 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				AA9045911D788242005F09E6 /* LaunchScreen.storyboard */,
 				AA9045941D788242005F09E6 /* Info.plist */,
 				AA2FB1A41D7ABFC60022ED04 /* currency_long.json */,
-				AAAAFD4F1D7C5FAE00741067 /* README.md */,
+				AAAAFD511D7C659700741067 /* README.md */,
 			);
 			path = "Currency X";
 			sourceTree = "<group>";
@@ -148,7 +148,7 @@
 			files = (
 				AA90459B1D7882C6005F09E6 /* MainTableViewController.swift in Sources */,
 				AA2FB1A71D7AF08F0022ED04 /* CurrencyTableViewCell.swift in Sources */,
-				AAAAFD501D7C5FAE00741067 /* README.md in Sources */,
+				AAAAFD521D7C659700741067 /* README.md in Sources */,
 				AA9045891D788242005F09E6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

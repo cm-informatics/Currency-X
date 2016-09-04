@@ -11,5 +11,7 @@ Features
 ----------------
 
 JSON API data
+
 More than 30 currencies
+
 Full- und shorthand name provided.

@@ -100,7 +100,6 @@ class MainTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CurrencyTableViewCell
 
         // Configure the cell...
@@ -108,10 +107,9 @@ class MainTableViewController: UITableViewController {
         if indexPath.section == 0{
             if let base = rates["base"]
             {
-                cell.lable_fullname.text = base as? String
+                cell.lable_fullname.text = currency_long.objectForKey(base) as? String
                 cell.label_shorthand.text = base as? String
                 cell.label_amount.text = "\(factor)"
-                
             }
         }
         else{
@@ -127,8 +125,15 @@ class MainTableViewController: UITableViewController {
                 cell.label_shorthand.text = "\(keys[indexPath.row])"
                 cell.label_amount.text = "\(((values[indexPath.row]) as! Double)*factor)"
             }
+            
         }
         
+        // Set the flags and put a lightGray border to them
+        let theFlag = "\(cell.label_shorthand.text!.stringByAppendingString(".PNG"))"
+        cell.country_flag.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.country_flag.layer.borderWidth = 0.75
+        cell.country_flag.image = UIImage(named: theFlag)
+
         return cell
     }
     
@@ -156,7 +161,6 @@ class MainTableViewController: UITableViewController {
                     let cell = self.tableView.cellForRowAtIndexPath(indexPath)
                     cell?.detailTextLabel?.text = alertView.textFields?.first?.text
                     self.factor = Double((alertView.textFields?.first?.text)!)!
-                    //tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     tableView.reloadData()
                     
             }))

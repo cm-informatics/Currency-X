@@ -160,9 +160,15 @@ class MainTableViewController: UITableViewController {
                     
                     let cell = self.tableView.cellForRowAtIndexPath(indexPath)
                     cell?.detailTextLabel?.text = alertView.textFields?.first?.text
-                    self.factor = Double((alertView.textFields?.first?.text)!)!
-                    tableView.reloadData()
                     
+                    alertView.textFields?.first?.text = alertView.textFields?.first?.text?.stringByReplacingOccurrencesOfString(",", withString: ".")
+                    
+                    // Perform the exchange only if the double conversion is possible
+                    if let exchangeFactor = Double(alertView.textFields!.first!.text!)
+                    {
+                        self.factor = exchangeFactor
+                        tableView.reloadData()
+                    }
             }))
             
             alertView.addAction(UIAlertAction(title: "Abbrechen", style: .Cancel, handler: nil))

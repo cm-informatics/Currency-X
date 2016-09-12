@@ -22,6 +22,7 @@ class MainTableViewController: UITableViewController {
         
         //Preapare Long Currency Names
         
+        
         let JSONFile = NSBundle.mainBundle().pathForResource("currency_long", ofType: "json")
         let data = NSData(contentsOfFile: JSONFile!)!
         

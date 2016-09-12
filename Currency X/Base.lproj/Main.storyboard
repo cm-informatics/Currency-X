@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PKI-0Z-Tgd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PKI-0Z-Tgd">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Currency-->
@@ -33,8 +34,12 @@
                                             <color key="textColor" red="0.96470588239999999" green="0.44705882349999998" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-dm-Ood">
-                                            <rect key="frame" x="303" y="17" width="290" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-dm-Ood">
+                                            <rect key="frame" x="402" y="17" width="190" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="190" id="Lya-Hm-bUg"/>
+                                                <constraint firstAttribute="height" constant="21" id="MCy-Wm-rb6"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.96470588239999999" green="0.44705882349999998" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -43,6 +48,11 @@
                                             <rect key="frame" x="8" y="14" width="43" height="27"/>
                                         </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="RGN-dm-Ood" firstAttribute="top" secondItem="R20-wP-BI7" secondAttribute="topMargin" constant="9" id="5y0-RC-OnF"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="RGN-dm-Ood" secondAttribute="bottom" constant="8.5" id="8ct-TE-MKV"/>
+                                        <constraint firstItem="RGN-dm-Ood" firstAttribute="trailing" secondItem="R20-wP-BI7" secondAttribute="trailingMargin" id="urC-B4-Oq2"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="country_flag" destination="NBi-Vu-NJo" id="7FQ-sf-5LG"/>
@@ -71,6 +81,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fur-Z9-GvJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

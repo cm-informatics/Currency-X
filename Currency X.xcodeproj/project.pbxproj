@@ -14,7 +14,7 @@
 		AA9045901D788242005F09E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA90458F1D788242005F09E6 /* Assets.xcassets */; };
 		AA9045931D788242005F09E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA9045911D788242005F09E6 /* LaunchScreen.storyboard */; };
 		AA90459B1D7882C6005F09E6 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90459A1D7882C6005F09E6 /* MainTableViewController.swift */; };
-		AAAAFD521D7C659700741067 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AAAAFD511D7C659700741067 /* README.md */; };
+		AAAAFD521D7C659700741067 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AAAAFD511D7C659700741067 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA2FB1A51D7ABFC60022ED04 /* currency_long.json in Resources */,
+				AAAAFD521D7C659700741067 /* README.md in Resources */,
 				AA9045931D788242005F09E6 /* LaunchScreen.storyboard in Resources */,
 				AA9045901D788242005F09E6 /* Assets.xcassets in Resources */,
 				AA90458E1D788242005F09E6 /* Main.storyboard in Resources */,
@@ -148,7 +149,6 @@
 			files = (
 				AA90459B1D7882C6005F09E6 /* MainTableViewController.swift in Sources */,
 				AA2FB1A71D7AF08F0022ED04 /* CurrencyTableViewCell.swift in Sources */,
-				AAAAFD521D7C659700741067 /* README.md in Sources */,
 				AA9045891D788242005F09E6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,19 +15,17 @@ class MainTableViewController: UITableViewController {
     
     var currency_long = NSDictionary()
     
-    let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Preapare Long Currency Names
-        
-        
-        let JSONFile = NSBundle.mainBundle().pathForResource("currency_long", ofType: "json")
-        let data = NSData(contentsOfFile: JSONFile!)!
+        let JSONFile = Bundle.main.path(forResource: "currency_long", ofType: "json")
+        let data = try! Data(contentsOf: URL(fileURLWithPath: JSONFile!))
         
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
             currency_long =  NSDictionary(dictionary: json as! [NSString : NSString])
             
         } catch let error as NSError {
@@ -37,38 +35,38 @@ class MainTableViewController: UITableViewController {
         getRates("USD")
     }
 
-    func getRates(base: String) {
+    func getRates(_ base: String) {
         
-        let url = NSURL(string: "http://api.fixer.io/latest?base=\(base)")!
+        let url = URL(string: "http://api.fixer.io/latest?base=\(base)")!
         
-        let dataTask = defaultSession.dataTaskWithURL(url) {
+        let dataTask = defaultSession.dataTask(with: url, completionHandler: {
             (data, response, error) in
             
             if (error != nil){
                 print(error?.localizedDescription)
             }
-            else if let httpResponse = response as? NSHTTPURLResponse{
+            else if let httpResponse = response as? HTTPURLResponse{
                 if httpResponse.statusCode == 200{
                     self.parseJSON(data)
                 }
             }
-        }
+        }) 
         
         dataTask.resume()
     }
     
-    func parseJSON(data: NSData?){
+    func parseJSON(_ data: Data?){
         
         do{
             if let data = data{
                 
-                self.rates = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! [String:AnyObject]
+                self.rates = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as! [String:AnyObject]
             }
         }
         catch{
             print("Something went wrong")
         }
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         {
             self.tableView.reloadData()
         }
@@ -78,11 +76,11 @@ class MainTableViewController: UITableViewController {
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1
         {
@@ -100,15 +98,15 @@ class MainTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CurrencyTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CurrencyTableViewCell
 
         // Configure the cell...
         
-        if indexPath.section == 0{
+        if (indexPath as NSIndexPath).section == 0{
             if let base = rates["base"]
             {
-                cell.lable_fullname.text = currency_long.objectForKey(base) as? String
+                cell.lable_fullname.text = currency_long.object(forKey: base) as? String
                 cell.label_shorthand.text = base as? String
                 cell.label_amount.text = "\(factor)"
             }
@@ -120,25 +118,25 @@ class MainTableViewController: UITableViewController {
                 let values = exchangeRates.allValues
                 
                 // Look up the full currency name for the shorthand
-                let full_currency = currency_long.objectForKey(keys[indexPath.row]) ?? ""
+                let full_currency = currency_long.object(forKey: keys[(indexPath as NSIndexPath).row]) ?? ""
                 
-                cell.lable_fullname.text = "\(full_currency!)"
-                cell.label_shorthand.text = "\(keys[indexPath.row])"
-                cell.label_amount.text = "\(((values[indexPath.row]) as! Double)*factor)"
+                cell.lable_fullname.text = "\(full_currency)"
+                cell.label_shorthand.text = "\(keys[(indexPath as NSIndexPath).row])"
+                cell.label_amount.text = "\(((values[(indexPath as NSIndexPath).row]) as! Double)*factor)"
             }
             
         }
         
         // Set the flags and put a lightGray border to them
-        let theFlag = "\(cell.label_shorthand.text!.stringByAppendingString(".PNG"))"
-        cell.country_flag.layer.borderColor = UIColor.lightGrayColor().CGColor
+        let theFlag = "\(cell.label_shorthand.text! + ".PNG")"
+        cell.country_flag.layer.borderColor = UIColor.lightGray.cgColor
         cell.country_flag.layer.borderWidth = 0.75
         cell.country_flag.image = UIImage(named: theFlag)
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0{
             return "Base Rate"
         }
@@ -147,22 +145,22 @@ class MainTableViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 && indexPath.section == 0{
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row == 0 && (indexPath as NSIndexPath).section == 0{
             
-            let alertView = UIAlertController(title: "Eingabe", message: "Bitte geben Sie eine Betrag ein.", preferredStyle: .Alert)
-            alertView.addTextFieldWithConfigurationHandler { (textField: UITextField) in
-                textField.keyboardType = .DecimalPad
+            let alertView = UIAlertController(title: "Eingabe", message: "Bitte geben Sie einen Betrag ein.", preferredStyle: .alert)
+            alertView.addTextField { (textField: UITextField) in
+                textField.keyboardType = .decimalPad
             }
             
-            alertView.addAction(UIAlertAction(title: "OK", style: .Default, handler:
+            alertView.addAction(UIAlertAction(title: "OK", style: .default, handler:
                 {
                     (action: UIAlertAction) in
                     
-                    let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+                    let cell = self.tableView.cellForRow(at: indexPath)
                     cell?.detailTextLabel?.text = alertView.textFields?.first?.text
                     
-                    alertView.textFields?.first?.text = alertView.textFields?.first?.text?.stringByReplacingOccurrencesOfString(",", withString: ".")
+                    alertView.textFields?.first?.text = alertView.textFields?.first?.text?.replacingOccurrences(of: ",", with: ".")
                     
                     // Perform the exchange only if the double conversion is possible
                     if let exchangeFactor = Double(alertView.textFields!.first!.text!)
@@ -172,13 +170,13 @@ class MainTableViewController: UITableViewController {
                     }
             }))
             
-            alertView.addAction(UIAlertAction(title: "Abbrechen", style: .Cancel, handler: nil))
+            alertView.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil))
 
-            self.presentViewController(alertView, animated: true, completion: nil)
+            self.present(alertView, animated: true, completion: nil)
             
         }
-        else if indexPath.section == 1{
-            let cell: CurrencyTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! CurrencyTableViewCell
+        else if (indexPath as NSIndexPath).section == 1{
+            let cell: CurrencyTableViewCell = tableView.cellForRow(at: indexPath) as! CurrencyTableViewCell
             getRates((cell.label_shorthand.text)!)
             
         }
@@ -227,5 +225,4 @@ class MainTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

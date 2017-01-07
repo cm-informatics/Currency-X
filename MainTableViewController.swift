@@ -43,7 +43,7 @@ class MainTableViewController: UITableViewController {
             (data, response, error) in
             
             if (error != nil){
-                print(error?.localizedDescription)
+                print(error?.localizedDescription as Any)
             }
             else if let httpResponse = response as? HTTPURLResponse{
                 if httpResponse.statusCode == 200{

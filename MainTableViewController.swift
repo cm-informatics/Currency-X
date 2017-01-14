@@ -10,6 +10,8 @@ import UIKit
 
 class MainTableViewController: UITableViewController {
 
+    let defaults = UserDefaults.standard
+    
     var rates = [String:AnyObject]()
     var factor = 1.0
     
@@ -19,6 +21,11 @@ class MainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let value = defaults.object(forKey: "default_Base") as? Double
+        {
+            factor = value
+        }
         
         //Preapare Long Currency Names
         let JSONFile = Bundle.main.path(forResource: "currency_long", ofType: "json")
@@ -33,6 +40,17 @@ class MainTableViewController: UITableViewController {
         }
         
         getRates("USD")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if let default_Base = defaults.object(forKey: "default_Base") as? Double
+        {
+            if factor != default_Base{
+                factor = default_Base
+                self.tableView.reloadData()
+            }
+        }
     }
 
     func getRates(_ base: String) {
@@ -181,6 +199,13 @@ class MainTableViewController: UITableViewController {
             
         }
     }
+    
+    /*@IBAction func prepareForUnwind(segue: UIStoryboardSegue)
+    {
+        factor = defaults.object(forKey: "default_Base") as! Double
+        self.tableView.reloadData()
+    }
+ */
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

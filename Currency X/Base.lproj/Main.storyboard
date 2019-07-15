@@ -146,7 +146,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="psH-D2-sLb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2591.1999999999998" y="107.49625187406298"/>
+            <point key="canvasLocation" x="2446" y="107"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fMV-Ds-Tse">
@@ -169,7 +169,7 @@
         <!--Navigation Controller-->
         <scene sceneID="ySb-08-uvx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ayf-Fp-9fZ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" id="ayf-Fp-9fZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xu1-3Z-zLV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

@@ -65,30 +65,18 @@ class SettingsTableViewController: UITableViewController, UITextFieldDelegate {
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "brc", for: indexPath) as!DefaultBaseRateTableViewCell
-            //cell.baseRateTextField.text = value.defaults.object(forKey: "default_Base")
             if let value = mtvc_obj.defaults.object(forKey: "default_Base") as? Double
             {
                 cell.baseRateTextField.text = String(value)
             }
+            else
+            {
+                cell.baseRateTextField.text = "1.0"
+            }
             
             return cell
         }
-
-        // Configure the cell...
-
-        
     }
-    
-  /*  func textFieldDidEndEditing(_ textField: UITextField) {
-        let value = MainTableViewController()
-        if let rate = Int(textField.text!)
-        {
-            value.defaults.set(rate, forKey: "default_Base")
-        }
-        
-        
-    }*/
- 
 
     /*
     // MARK: - Navigation

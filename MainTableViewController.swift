@@ -28,18 +28,9 @@ class MainTableViewController: UITableViewController {
         }
         
         //Preapare Long Currency Names
-        let JSONFile = Bundle.main.path(forResource: "currency_long", ofType: "json")
-        let data = try! Data(contentsOf: URL(fileURLWithPath: JSONFile!))
+        getLongCurrencyNames()
         
-        do {
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            currency_long =  NSDictionary(dictionary: json as! [NSString : NSString])
-            
-        } catch let error as NSError {
-            print("Failed to load: \(error.localizedDescription)")
-        }
-        
-        getRates("USD")
+        getRates("EUR")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,10 +43,26 @@ class MainTableViewController: UITableViewController {
             }
         }
     }
+    
+    func getLongCurrencyNames(){
+        let JSONFile = Bundle.main.path(forResource: "currency_long", ofType: "json")
+        let data = try! Data(contentsOf: URL(fileURLWithPath: JSONFile!))
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            currency_long =  NSDictionary(dictionary: json as! [NSString : NSString])
+            
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+        }
+
+    }
 
     func getRates(_ base: String) {
+        //let url = URL(string: "http://api.fixer.io/latest?base=\(base)")!
         
-        let url = URL(string: "http://api.fixer.io/latest?base=\(base)")!
+        //http://data.fixer.io/api/latest?access_key=218dae4a22742cfe4ceab1f0326ea7c8&format=1
+        let url = URL(string: "http://data.fixer.io/api/latest?access_key=218dae4a22742cfe4ceab1f0326ea7c8&format=1")!
         
         let dataTask = defaultSession.dataTask(with: url, completionHandler: {
             (data, response, error) in
@@ -66,6 +73,13 @@ class MainTableViewController: UITableViewController {
             else if let httpResponse = response as? HTTPURLResponse{
                 if httpResponse.statusCode == 200{
                     self.parseJSON(data)
+                }
+                else {
+                    let headerFields = httpResponse.allHeaderFields
+                    if let errorMessage = headerFields["x-amz-error-message"]{
+                        print("Status Code: \(httpResponse.statusCode)\nError message: \(errorMessage)")
+                    }
+                    print(headerFields)
                 }
             }
         }) 
@@ -99,7 +113,6 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 1
         {
             if let exchangeRates = rates["rates"] as? NSDictionary{
